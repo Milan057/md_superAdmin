@@ -21,7 +21,7 @@ void main() {
       BlocProvider(create: (context) => DashboardCubit()),
     ],
     child: MaterialApp(
-      home: const Dashboard(),
+      home: const Login(),
       theme: ThemeData(fontFamily: "Poppins"),
       debugShowCheckedModeBanner: false,
     ),

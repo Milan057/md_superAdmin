@@ -5,6 +5,7 @@ import 'package:md_customer/dashboard/cubit/dashboard_cubit.dart';
 import 'package:md_customer/helper/colors.dart';
 import 'package:md_customer/helper/elevatedButton.dart';
 import 'package:md_customer/helper/layout.dart';
+import 'package:md_customer/login/views/login.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -20,6 +21,11 @@ class Dashboard extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => AddNewBusAdmin(),
           ));
+        }
+        if (state is LogoutClicked) {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const Login()),
+              (route) => false);
         }
       },
       child: Scaffold(
@@ -58,9 +64,11 @@ class Dashboard extends StatelessWidget {
                   height: 20,
                 ),
                 Center(
-                  child: Expanded(
-                      child: getBlueElevatedButton(
-                          text: "Logout", onClick: () {})),
+                  child: getBlueElevatedButton(
+                      text: "Logout",
+                      onClick: () {
+                        bloc.logoutClicked();
+                      }),
                 )
               ],
             ),
@@ -103,7 +111,6 @@ class Dashboard extends StatelessWidget {
                       int columns =
                           getLayoutColumns_3_2_1(constraints.maxWidth);
                       double cardWidth = constraints.maxWidth / columns;
-                      print(constraints.maxWidth);
                       return CustomScrollView(
                         slivers: [
                           SliverPadding(
@@ -111,166 +118,15 @@ class Dashboard extends StatelessWidget {
                             sliver: SliverGrid(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: columns,
-                                childAspectRatio:
-                                    1.3, // Adjust the aspect ratio as needed
-                              ),
+                                      crossAxisCount: columns,
+                                      childAspectRatio:
+                                          1.3, // Adjust the aspect ratio as needed
+                                      mainAxisExtent: 320),
                               delegate: SliverChildBuilderDelegate(
                                 (context, index) {
-                                  return Card(
-                                    color: slightScaffoldColor,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Bus Operators",
-                                            style: TextStyle(
-                                                color: whiteColor,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          SizedBox(height: 20),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Container(
-                                                width: cardWidth / 4,
-                                                child: Card(
-                                                  color: neutralSignColor,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Column(children: [
-                                                      Icon(Icons
-                                                          .list_alt_rounded),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        "15",
-                                                        style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                      Text(
-                                                        "Total Operators",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )
-                                                    ]),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: cardWidth / 4,
-                                                child: Card(
-                                                  color: goodSignColor,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Column(children: [
-                                                      Icon(Icons
-                                                          .check_circle_outline),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        "15",
-                                                        style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                      Text(
-                                                        "Active Operators",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )
-                                                    ]),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: cardWidth / 4,
-                                                child: Card(
-                                                  color: warningSignColor,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Column(children: [
-                                                      Icon(Icons
-                                                          .warning_rounded),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                        "15",
-                                                        style: TextStyle(
-                                                            fontSize: 30,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                      Text(
-                                                        "Inactive Operators",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )
-                                                    ]),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 30,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Expanded(
-                                                child: getBlueElevatedButton(
-                                                    text: "Add New Operator",
-                                                    onClick: () {
-                                                      bloc.addNewOperatorClicked();
-                                                    }),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: getBlueElevatedButton(
-                                                    text: "Manage Operators",
-                                                    onClick: () {}),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                                  return returnMainCard(cardWidth, bloc);
                                 },
-                                childCount: 20, // Number of items in your grid
+                                childCount: 1, // Number of items in your grid
                               ),
                             ),
                           ),
@@ -278,6 +134,131 @@ class Dashboard extends StatelessWidget {
                       );
                     },
                   )))),
+    );
+  }
+
+  Card returnMainCard(double cardWidth, DashboardCubit bloc) {
+    return Card(
+      color: slightScaffoldColor,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Bus Operators",
+              style: TextStyle(
+                  color: whiteColor, fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: cardWidth / 4,
+                  child: Card(
+                    color: neutralSignColor,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(children: [
+                        Icon(Icons.list_alt_rounded),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "15",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "Total Operators",
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        )
+                      ]),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: cardWidth / 4,
+                  child: Card(
+                    color: goodSignColor,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(children: [
+                        Icon(Icons.check_circle_outline),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "15",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "Active Operators",
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        )
+                      ]),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: cardWidth / 4,
+                  child: Card(
+                    color: warningSignColor,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(children: [
+                        Icon(Icons.warning_rounded),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "15",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          "Inactive Operators",
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        )
+                      ]),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: getBlueElevatedButton(
+                      text: "Add New Operator",
+                      onClick: () {
+                        bloc.addNewOperatorClicked();
+                      }),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: getBlueElevatedButton(
+                      text: "Manage Operators", onClick: () {}),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
