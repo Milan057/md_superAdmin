@@ -28,6 +28,10 @@ class Dashboard extends StatelessWidget {
               (route) => false);
         }
       },
+       child: RefreshIndicator(
+       onRefresh: () async {
+            bloc.refreshBusStatus();
+          },
       child: Scaffold(
           key: _scaffoldKey,
           endDrawer: Drawer(
@@ -134,7 +138,7 @@ class Dashboard extends StatelessWidget {
                       );
                     },
                   )))),
-    );
+    ));
   }
 
   Card returnMainCard(double cardWidth, DashboardCubit bloc) {
@@ -146,93 +150,98 @@ class Dashboard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Bus Operators",
+              "Super Admin",
               style: TextStyle(
                   color: whiteColor, fontSize: 20, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: cardWidth / 4,
-                  child: Card(
-                    color: neutralSignColor,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(children: [
-                        Icon(Icons.list_alt_rounded),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "15",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "Total Operators",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center,
-                        )
-                      ]),
+               BlocBuilder<DashboardCubit, DashboardState>(
+              buildWhen: (previous, current) => current is DashboardCountUpdateState,
+              builder: (context, state) {
+                return       Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: cardWidth / 4,
+                    child: Card(
+                      color: neutralSignColor,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(children: [
+                          Icon(Icons.list_alt_rounded),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            bloc.total,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "Total Bus Admin",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          )
+                        ]),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: cardWidth / 4,
-                  child: Card(
-                    color: goodSignColor,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(children: [
-                        Icon(Icons.check_circle_outline),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "15",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "Active Operators",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center,
-                        )
-                      ]),
+                  Container(
+                    width: cardWidth / 4,
+                    child: Card(
+                      color: goodSignColor,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(children: [
+                          Icon(Icons.check_circle_outline),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            bloc.active,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "Active Bus Admin",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          )
+                        ]),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: cardWidth / 4,
-                  child: Card(
-                    color: warningSignColor,
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(children: [
-                        Icon(Icons.warning_rounded),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "15",
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          "Inactive Operators",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center,
-                        )
-                      ]),
+                  Container(
+                    width: cardWidth / 4,
+                    child: Card(
+                      color: warningSignColor,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(children: [
+                          Icon(Icons.warning_rounded),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            bloc.inactive,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "Inactive Bus Admin",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          )
+                        ]),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              );
+              },
             ),
             SizedBox(
               height: 30,

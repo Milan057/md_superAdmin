@@ -4,6 +4,7 @@ import 'package:md_customer/add_new_bus_admin/cubit/add_new_bus_admin_cubit.dart
 import 'package:md_customer/add_new_bus_admin/repository/add_new_bus_repository.dart';
 import 'package:md_customer/add_new_bus_admin/views/add_new_bus_admin.dart';
 import 'package:md_customer/dashboard/cubit/dashboard_cubit.dart';
+import 'package:md_customer/dashboard/repository/dashboard_repo.dart';
 import 'package:md_customer/dashboard/views/dashboard.dart';
 import 'package:md_customer/login/cubit/login_cubit.dart';
 import 'package:md_customer/login/repository/login_repository.dart';
@@ -18,7 +19,7 @@ void main() {
       BlocProvider(create: (context) => LoginCubit(LoginRepository())),
       BlocProvider(
           create: (context) => AddNewBusAdminCubit(AddNewBusRepository())),
-      BlocProvider(create: (context) => DashboardCubit()),
+      BlocProvider(create: (context) => DashboardCubit(DashboardRepo())),
     ],
     child: MaterialApp(
       home: const Login(),
